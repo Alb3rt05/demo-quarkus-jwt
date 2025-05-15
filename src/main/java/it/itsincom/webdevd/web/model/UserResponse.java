@@ -1,7 +1,5 @@
 package it.itsincom.webdevd.web.model;
 
-import it.itsincom.webdevd.persistence.model.UserRole;
-
 public class UserResponse {
     private long id;
     private String username;

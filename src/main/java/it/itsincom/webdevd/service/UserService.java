@@ -86,6 +86,34 @@ public class UserService {
         return toUserResponse(targetUser);
     }
 
+    @Transactional
+    public UserResponse updateOwnDetails(
+            String currentUsername,
+            Long targetUserId,
+            String newUsername,
+            String newPassword) {
+        ApplicationUser currentUser = userRepository.findByUsername(currentUsername);
+        ApplicationUser targetUser = userRepository.findById(targetUserId);
+
+        if (currentUser == null || targetUser == null) {
+            throw new WebApplicationException("Utente non trovato", 404);
+        }
+
+        if (!"USER".equals(currentUser.getRole())) {
+            throw new WebApplicationException("Accesso negato", 403);
+        }
+
+        if ("USER".equals(targetUser.getRole()) && !currentUser.getId().equals(targetUser.getId())) {
+            throw new WebApplicationException("Non puoi modificare un altro User", 403);
+        }
+        targetUser.setUsername(newUsername);
+        targetUser.setPassword(BcryptUtil.bcryptHash(newPassword));
+        return toUserResponse(targetUser);
+    }
+
+    public ApplicationUser getEntityByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
     public UserResponse getUserByUsername(String username) {
         return toUserResponse(userRepository.findByUsername(username));
     }

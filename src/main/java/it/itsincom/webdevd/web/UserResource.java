@@ -2,6 +2,7 @@ package it.itsincom.webdevd.web;
 
 import java.util.List;
 
+import it.itsincom.webdevd.persistence.model.ApplicationUser;
 import it.itsincom.webdevd.service.UserService;
 import it.itsincom.webdevd.web.model.CreateUserRequest;
 import it.itsincom.webdevd.web.model.UserResponse;
@@ -37,7 +38,6 @@ public class UserResource {
         return userService.createUser(request);
     }
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
@@ -50,14 +50,31 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("ADMIN")
-    public UserResponse updateUser(@PathParam("id") Long userId, CreateUserRequest request, @Context SecurityContext securityContext) {
+    public UserResponse updateUser(@PathParam("id") Long userId, CreateUserRequest request,
+            @Context SecurityContext securityContext) {
         String currentUsername = securityContext.getUserPrincipal().getName();
         return userService.updateUserDetails(
+                currentUsername,
+                userId,
+                request.getUsername(),
+                request.getPassword(),
+                request.getRole().name());
+    }
+
+    @PUT
+    @Path("/me")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("USER")
+    public UserResponse updateOwnProfile(CreateUserRequest request, @Context SecurityContext securityContext) {
+        String currentUsername = securityContext.getUserPrincipal().getName();
+        ApplicationUser currentUser = userService.getEntityByUsername(currentUsername);
+        return userService.updateOwnDetails(
             currentUsername,
-            userId,
+            currentUser.getId(),
             request.getUsername(),
-            request.getPassword(),
-            request.getRole().name()
+            request.getPassword()
         );
     }
+
 }
