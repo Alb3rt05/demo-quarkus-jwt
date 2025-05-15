@@ -1,0 +1,32 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  min-height: 100vh;
+  color: white;
+}
+
+.profileContainer input {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
+.profileContainer button {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+}
+
+.profileContainer button:hover {
+  background: linear-gradient(135deg, #a777e3, #6e8efb);
+}

@@ -1,0 +1,15 @@
+.welcomeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.welcomeContainer h1 {
+  margin-top: 2rem;
+}
